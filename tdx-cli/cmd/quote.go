@@ -76,5 +76,6 @@ func getQuote(cmd *cobra.Command) error {
 	}
 
 	fmt.Fprintln(os.Stdout, evidence.Evidence)
+	fmt.Fprintln(os.Stdout, evidence.EventLog)
 	return nil
 }
