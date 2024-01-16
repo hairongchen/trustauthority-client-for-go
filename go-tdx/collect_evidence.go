@@ -73,6 +73,8 @@ func (adapter *tdxAdapter) CollectEvidence(nonce []byte) (*connector.Evidence, e
 		if err != nil {
 			return nil, errors.Wrap(err, "Error while marshalling RTMR Event Log Data")
 		}
+	} else {
+		log.Infoln("not get eventlog!")
 	}
 
 	return &connector.Evidence{
