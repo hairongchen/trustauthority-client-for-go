@@ -77,7 +77,7 @@ func getQuote(cmd *cobra.Command) error {
 		return errors.Wrap(err, "Failed to collect evidence")
 	}
 
-	fmt.Fprintln(os.Stdout, evidence.Evidence)
-	fmt.Fprintln(os.Stdout, evidence.EventLog)
+	fmt.Fprintln(os.Stdout, len(evidence.Evidence))
+	fmt.Fprintln(os.Stdout, len(evidence.EventLog))
 	return nil
 }
