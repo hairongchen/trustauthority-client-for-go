@@ -48,6 +48,7 @@ func parseTcgSpecEvent(buf *bytes.Buffer, size uint32) (*bytes.Buffer, uint32, e
 
 	tcgPcrEvent := tcgPcrEventV1{}
 	err := binary.Read(buf, binary.LittleEndian, &tcgPcrEvent.PcrIndex)
+	log.Infoln("PcrIndex = ", tcgPcrEvent.PcrIndex)
 	if err != nil {
 		return nil, 0, errors.Wrap(err, "error reading TCG_PCR_EVENT PCR Index from Event Log buffer")
 	}
