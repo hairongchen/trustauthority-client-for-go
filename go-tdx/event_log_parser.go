@@ -162,6 +162,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 
 			// After parsing of TPML_DIGEST_VALUES form (Intel TXT spec. ver. 16.2) increment the offset to read the next TCG_PCR_EVENT2
 			if hashIndex+1 == int(tpmlDigestValues.Count) {
+				log.Infoln("==== final ====")
 				err = binary.Read(buf, binary.LittleEndian, &tcgPcrEvent2.EventSize)
 				if err != nil {
 					return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Event Size from Event Log buffer")
