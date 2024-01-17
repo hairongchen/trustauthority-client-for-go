@@ -110,7 +110,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 			return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Digest Count from Event Log buffer")
 		}
 
-		log.Infof("PcrIndex = %d, EventType = %d, tpmlDigestValues.Count = %d", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType, tpmlDigestValues.Count)
+		log.Infof("PcrIndex = %d, EventType = %d, eventTypeStr = %s, tpmlDigestValues.Count = %d", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType, eventTypeStr, tpmlDigestValues.Count)
 
 		offset = offset + Uint32Size
 		// From Tpm2.0 spec: https://dox.ipxe.org/Tpm20_8h_source.html#l01081
@@ -157,6 +157,8 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 			if ok {
 				eventData[hashIndex].TypeName = eventName
 			}
+
+			log.Infof("Index = %d, algID = %d, Measurement = %d, TypeID = %s, eventName.Count = %s", rtmr[hashIndex].Index, algID, eventData[hashIndex].Measurement, eventData[hashIndex].TypeID, eventName)
 
 			// After parsing of TPML_DIGEST_VALUES form (Intel TXT spec. ver. 16.2) increment the offset to read the next TCG_PCR_EVENT2
 			if hashIndex+1 == int(tpmlDigestValues.Count) {
