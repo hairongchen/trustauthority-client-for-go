@@ -105,6 +105,8 @@ func readUefiEvent(uefiEventLogFilePath string, uefiEventSize uint32) (*bytes.Bu
 		return nil, errors.Wrapf(err, "%s file does not exist", uefiEventLogFilePath)
 	}
 
+	log.Infoln("uefiEventLogFilePath = ", uefiEventLogFilePath)
+
 	file, err := os.Open(uefiEventLogFilePath)
 	if err != nil {
 		return nil, errors.Wrapf(err, "error opening %s", uefiEventLogFilePath)
