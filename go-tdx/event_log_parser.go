@@ -79,6 +79,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 	var offset int64
 	var err error
 	for offset = 0; offset < int64(size); {
+		// CHR read 4 bytes
 		err = binary.Read(buf, binary.LittleEndian, &tcgPcrEvent2.PcrIndex)
 		if err != nil {
 			return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 PCR Index from Event Log buffer")
@@ -89,6 +90,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 			break
 		}
 
+		// CHR read 4 bytes
 		err = binary.Read(buf, binary.LittleEndian, &tcgPcrEvent2.EventType)
 		if err != nil {
 			return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Event Type from Event Log buffer")
@@ -96,6 +98,8 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 
 		offset = offset + Uint32Size
 		eventTypeStr := fmt.Sprintf("0x%x", tcgPcrEvent2.EventType)
+
+		// CHR read 4 bytes
 		err = binary.Read(buf, binary.LittleEndian, &tpmlDigestValues.Count)
 		if err != nil {
 			return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Digest Count from Event Log buffer")

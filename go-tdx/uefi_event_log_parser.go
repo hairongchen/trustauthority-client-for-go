@@ -98,6 +98,7 @@ func (parser *uefiEventLogParser) GetEventLogs() ([]RtmrEventLog, error) {
 
 // ReadUefiEvent - Function to read Uefi Event binary data from /sys/firmware/acpi/tables/data/CCEL
 func readUefiEvent(uefiEventLogFilePath string, uefiEventSize uint32) (*bytes.Buffer, error) {
+	log.Infoln("uefiEventSize = %d", uefiEventSize)
 
 	eventLogBuffer := make([]byte, uefiEventSize)
 	if _, err := os.Stat(uefiEventLogFilePath); os.IsNotExist(err) {
