@@ -186,7 +186,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 						cleanTags = append(cleanTags, removeUnicode(tag))
 					}
 					eventData[index].Tags = cleanTags
-					log.Infof("eveng index = %d, Event tag = %s", index, eventData[index].Tags)
+					log.Infof("eveng index = %d, Event tag = %s, index = %d, bank = %s", index, eventData[index].Tags, rtmr[index].Index, rtmr[index].Bank)
 
 					tempRtmrEventLog.Rtmr = rtmr[index]
 					tempRtmrEventLog.RtmrEvents = append(tempRtmrEventLog.RtmrEvents, eventData[index])
