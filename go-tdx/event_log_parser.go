@@ -171,6 +171,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 
 				offset = offset + Uint32Size
 				tcgPcrEvent2.Event = buf.Next(int(tcgPcrEvent2.EventSize))
+				log.Infoln("Event =", tcgPcrEvent2.Event)
 				offset = offset + int64(tcgPcrEvent2.EventSize)
 				// Adding eventlog data according to RtmrEventLog
 				for index := 0; index < int(tpmlDigestValues.Count); index++ {
