@@ -122,5 +122,6 @@ func readUefiEvent(uefiEventLogFilePath string, uefiEventSize uint32) (*bytes.Bu
 	}
 
 	buf := bytes.NewBuffer(eventLogBuffer)
+	log.Infoln("len of eventLogBuffer = ", len(eventLogBuffer))
 	return buf, nil
 }
