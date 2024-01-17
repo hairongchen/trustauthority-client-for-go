@@ -110,7 +110,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 			return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Digest Count from Event Log buffer")
 		}
 
-		log.Infoln("PcrIndex = %d, EventType = %d, tpmlDigestValues.Count = %d", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType, tpmlDigestValues.Count)
+		log.Infof("PcrIndex = %d, EventType = %d, tpmlDigestValues.Count = %d", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType, tpmlDigestValues.Count)
 
 		offset = offset + Uint32Size
 		// From Tpm2.0 spec: https://dox.ipxe.org/Tpm20_8h_source.html#l01081
