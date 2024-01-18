@@ -120,8 +120,10 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 		}
 
 		var hashIndex int
+		// CHR array indexed by digest algo
 		eventData := make([]RtmrEvent, tpmlDigestValues.Count)
 		rtmr := make([]RtmrData, tpmlDigestValues.Count)
+		// CHR: how many digest algo is supported
 		for hashIndex = 0; hashIndex < int(tpmlDigestValues.Count); hashIndex++ {
 			var digestSize int
 			var algID uint16
@@ -212,6 +214,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 		}
 	}
 
+	log.Infof("len of rtmrEventLogs = %d", len(rtmrEventLogs))
 	return rtmrEventLogs, nil
 }
 
