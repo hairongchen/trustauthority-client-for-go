@@ -180,7 +180,6 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 					var tempRtmrEventLog RtmrEventLog
 					// Handling of Uefi Event Tag according to TCG PC Client Platform Firmware Profile Specification v1.5
 					eventData[index].Tags, err = getEventTag(tcgPcrEvent2.EventType, tcgPcrEvent2.Event, tcgPcrEvent2.EventSize, tcgPcrEvent2.PcrIndex)
-					log.Infof("====================== out getEventTag ======================")
 					if err != nil {
 						log.WithError(err).Warnf("error in getting Event Tag. PcrIndex = %x, EventType = %x", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType)
 					}
@@ -243,7 +242,6 @@ func getHashData(offset int64, digestSize int, buf *bytes.Buffer) (string, int64
 
 // GetEventTag - Function to get tag for uefi events
 func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex uint32) ([]string, error) {
-	log.Infof("====================== enter getEventTag ======================")
 	// Handling EV_EFI_VARIABLE_DRIVER_CONFIG, EV_EFI_VARIABLE_BOOT, EV_EFI_VARIABLE_BOOT2 and EV_EFI_VARIABLE_AUTHORITY as all
 	// These events are associated with UEFI_VARIABLE_DATA
 	var err error
@@ -321,10 +319,11 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 			if nullIndex == 0 {
 				return nil, nil
 			}
+			log.Infof("Debug: in if 3.1, tag = %s", tagName[:nullIndex])
 			return []string{tagName[:nullIndex]}, nil
 		}
 
-		log.Infof("Debug: in if 3, tag = %s", tagName)
+		log.Infof("Debug: in if 3.2, tag = %s", tagName)
 
 		return []string{tagName}, nil
 	}
@@ -342,13 +341,16 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 				return nil, nil
 			}
 			tagName = fmt.Sprintf("%s%d", tagName[:nullIndex], tagName[nullIndex+1])
+			log.Infof("Debug: in if 4.1, tag = %s", tagName)
 			return []string{tagName}, nil
 		}
 
-		log.Infof("Debug: in if 4, tag = %s", tagName)
+		log.Infof("Debug: in if 4.2, tag = %s", tagName)
 
 		return []string{tagName}, nil
 	}
+
+	log.Infof("Debug: in if 5")
 
 	return nil, nil
 }
