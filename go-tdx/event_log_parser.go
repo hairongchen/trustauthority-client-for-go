@@ -275,10 +275,10 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 		runeChar := make([]rune, uefiVarData.UnicodeNameLength)
 		for index = 0; index1 < int((uefiVarData.UnicodeNameLength * 2)); index++ {
 			runeChar[index] = rune(unicodeName[index1])
+			log.Infof("Debug: in if 1, tag = %s", runeChar[index])
+
 			index1 = index1 + 2
 		}
-
-		log.Infof("Debug: in if 1, tag = %s", runeChar)
 
 		return []string{string(runeChar)}, nil
 	}
