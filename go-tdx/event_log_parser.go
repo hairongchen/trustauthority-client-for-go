@@ -180,6 +180,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 					var tempRtmrEventLog RtmrEventLog
 					// Handling of Uefi Event Tag according to TCG PC Client Platform Firmware Profile Specification v1.5
 					eventData[index].Tags, err = getEventTag(tcgPcrEvent2.EventType, tcgPcrEvent2.Event, tcgPcrEvent2.EventSize, tcgPcrEvent2.PcrIndex)
+					log.Infof("====================== out getEventTag ======================")
 					if err != nil {
 						log.WithError(err).Warnf("error in getting Event Tag. PcrIndex = %x, EventType = %x", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType)
 					}
@@ -242,7 +243,7 @@ func getHashData(offset int64, digestSize int, buf *bytes.Buffer) (string, int64
 
 // GetEventTag - Function to get tag for uefi events
 func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex uint32) ([]string, error) {
-
+	log.Infof("====================== enter getEventTag ======================")
 	// Handling EV_EFI_VARIABLE_DRIVER_CONFIG, EV_EFI_VARIABLE_BOOT, EV_EFI_VARIABLE_BOOT2 and EV_EFI_VARIABLE_AUTHORITY as all
 	// These events are associated with UEFI_VARIABLE_DATA
 	var err error
