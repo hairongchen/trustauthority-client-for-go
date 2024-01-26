@@ -32,7 +32,7 @@ func NewEventLogParser() EventLogParser {
 	// /sys/firmware (default)
 	var uefiParser EventLogParser
 	if uefiEventLogFile != "" {
-		log.Infof("Configured to use UEFI event log file %q", uefiEventLogFile)
+		//log.Infof("Configured to use UEFI event log file %q", uefiEventLogFile)
 		uefiParser = &fileEventLogParser{file: uefiEventLogFile}
 	} else {
 		uefiParser = &uefiEventLogParser{
@@ -110,7 +110,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 			return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Digest Count from Event Log buffer")
 		}
 
-		log.Infof("PcrIndex = %d, EventType = %d, eventTypeStr = %s, tpmlDigestValues.Count = %d", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType, eventTypeStr, tpmlDigestValues.Count)
+		//log.Infof("PcrIndex = %d, EventType = %d, eventTypeStr = %s, tpmlDigestValues.Count = %d", tcgPcrEvent2.PcrIndex, tcgPcrEvent2.EventType, eventTypeStr, tpmlDigestValues.Count)
 
 		offset = offset + Uint32Size
 		// From Tpm2.0 spec: https://dox.ipxe.org/Tpm20_8h_source.html#l01081
@@ -160,12 +160,12 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 				eventData[hashIndex].TypeName = eventName
 			}
 
-			log.Infof("Index = %d, algID = %d, Measurement = %s, TypeID = %s, eventName = %s", rtmr[hashIndex].Index, algID, eventData[hashIndex].Measurement, eventData[hashIndex].TypeID, eventName)
+			//log.Infof("Index = %d, algID = %d, Measurement = %s, TypeID = %s, eventName = %s", rtmr[hashIndex].Index, algID, eventData[hashIndex].Measurement, eventData[hashIndex].TypeID, eventName)
 
 			// After parsing of TPML_DIGEST_VALUES form (Intel TXT spec. ver. 16.2) increment the offset to read the next TCG_PCR_EVENT2
 			if hashIndex+1 == int(tpmlDigestValues.Count) {
 				err = binary.Read(buf, binary.LittleEndian, &tcgPcrEvent2.EventSize)
-				log.Infoln("final of algo, event size =", tcgPcrEvent2.EventSize)
+				//log.Infoln("final of algo, event size =", tcgPcrEvent2.EventSize)
 
 				if err != nil {
 					return nil, errors.Wrap(err, "error reading TCG_PCR_EVENT2 Event Size from Event Log buffer")
@@ -173,7 +173,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 
 				offset = offset + Uint32Size
 				tcgPcrEvent2.Event = buf.Next(int(tcgPcrEvent2.EventSize))
-				log.Infof("Event = %s", tcgPcrEvent2.Event)
+				//log.Infof("Event = %s", tcgPcrEvent2.Event)
 				offset = offset + int64(tcgPcrEvent2.EventSize)
 				// Adding eventlog data according to RtmrEventLog
 				for index := 0; index < int(tpmlDigestValues.Count); index++ {
@@ -210,7 +210,7 @@ func createEventLog(buf *bytes.Buffer, size uint32, rtmrEventLogs []RtmrEventLog
 						}
 					}
 				}
-				log.Infof("Debug: Event tag = %s", eventData[0].Tags)
+				//log.Infof("Debug: Event tag = %s", eventData[0].Tags)
 
 			}
 		}
@@ -278,6 +278,8 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 			index1 = index1 + 2
 		}
 
+		log.Infof("Debug: in if 1, tag = %s", runeChar)
+
 		return []string{string(runeChar)}, nil
 	}
 
@@ -293,6 +295,9 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 
 		blobDesc := buf.Next(int(blobDescriptionSize))
 		tagName := string(blobDesc)
+
+		log.Infof("Debug: in if 2, tag = %s", tagName)
+
 		return []string{tagName}, nil
 	}
 
@@ -317,6 +322,9 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 			}
 			return []string{tagName[:nullIndex]}, nil
 		}
+
+		log.Infof("Debug: in if 3, tag = %s", tagName)
+
 		return []string{tagName}, nil
 	}
 
@@ -335,6 +343,9 @@ func getEventTag(eventType uint32, eventData []byte, eventSize uint32, pcrIndex 
 			tagName = fmt.Sprintf("%s%d", tagName[:nullIndex], tagName[nullIndex+1])
 			return []string{tagName}, nil
 		}
+
+		log.Infof("Debug: in if 4, tag = %s", tagName)
+
 		return []string{tagName}, nil
 	}
 
